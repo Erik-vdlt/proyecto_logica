@@ -1,5 +1,15 @@
 import pymysql
 
+def singleton(cls):
+    instances = dict()
+    def wrap(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    
+    return wrap
+        
+@singleton
 class database:
     def __init__(self):
         self.connection = pymysql.connect(
@@ -8,6 +18,10 @@ class database:
             password = 'root1',
             db = 'clinica_veterinaria'
         )
+        if self.connection.open:
+            print("conexion abierta")
+        else:
+            print("conexion fallida")
 
         self.cursor = self.connection.cursor()
 
@@ -25,6 +39,3 @@ class database:
         except Exception as e:
             raise
 
-
-prueba = database()
-prueba.all_users()

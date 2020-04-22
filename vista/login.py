@@ -65,6 +65,7 @@ class Ui_formulario(object):
         self.vent.setupUi(self.principal)
         self.principal.show()
         print("funciona "+self.txt_usuario.toPlainText())
+        formulario.hide()
         
 
 

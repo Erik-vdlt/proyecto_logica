@@ -397,4 +397,4 @@ class Ui_vista_principal(object):
     def prueba_database(self):
         print("hola ")
         x = database()
-        x.all_users()
+        x.__init__()
