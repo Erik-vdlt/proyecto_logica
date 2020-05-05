@@ -1,4 +1,5 @@
 import pymysql
+#import exceptions as a
 
 def singleton(cls):
     instances = dict()
@@ -24,8 +25,21 @@ class database:
             print("conexion fallida")
 
         self.cursor = self.connection.cursor()
+        
+    def ejecutar_instruccion(self, sql):
+        try:
+            self.cursor.execute(sql)
+        except self.cursor.DatabaseError:
+            print("error en la base de datos")
+            
+    def consultar_registros(self, sql):
+        
+        self.cursor.execute(sql)
+        registros = self.cursor.fetchall()
+        
+        return registros
 
-    def all_users(self):
+    '''def all_users(self):
         sql = 'SELECT * FROM Usuario'
 
         try:
@@ -38,4 +52,12 @@ class database:
                 print("contraseña",usuario[2])
         except Exception as e:
             raise
-
+'''            
+    def cerrar_conexion(self):
+        flag = True
+        try:
+            self.cursor.close
+        except self.cursor.DatabaseError:
+            flag = False
+            
+        return flag

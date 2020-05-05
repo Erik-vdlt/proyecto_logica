@@ -1,5 +1,5 @@
-class cliente:
-    __nombre_cliente
+class veterinarios:
+    __nombre_veterinario
     __primer_ap
     __segundo_ap
     __fecha_nacimiento
@@ -8,13 +8,13 @@ class cliente:
     __colonia
     __correo
     
-    def cliente():
+    def veterinarios():
         pass
     
-    def get_nombre_cliente(self):
+    def get_nombre_veterinario(self):
         return self.__nombre
         
-    def set_nombre_cliente(self, nombre):
+    def set_nombre_veterinario(self, nombre):
         self.__nombre_cliente = nombre
         
     def get_primer_ap(self):

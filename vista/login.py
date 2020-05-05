@@ -66,8 +66,6 @@ class Ui_formulario(object):
         self.principal.show()
         print("funciona "+self.txt_usuario.toPlainText())
         formulario.hide()
-        
-
 
 
 
