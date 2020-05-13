@@ -1,9 +1,13 @@
 from modelo.mascotas import mascota  as mas
-from conexion.conexion_bd import database as con
+from conexion.conexion_bd import database
 class mascotaDAO:
+    __db : database
     
-    def agregar_mascota(self,mas, con):
-        sql = ("insert into mascota(nombre_mascota,especie,"+
+    def agregar_mascota(self,cls_mas: mas, con_x ):
+        self.__db = con_x
+        sql = ("insert into Mascota(nombre_mascota,especie,"+
         "tipo_mascota,peso_mascota,cliente_id_cliente)"+
-        " values "+"("+mas.get_nombre+","+mas.get_especie+","+mas.get_tipo+","+mas.get_peso+")")
-        con.ejecutar_instruccion(sql)
+        " values "+"('"+str(cls_mas.get_nombre())+"','"+
+        str(cls_mas.get_especie())+"','"+str(cls_mas.get_tipo())+
+        "',"+str(cls_mas.get_peso())+","+str(cls_mas.get_id_cliente())+")")
+        self.__db.ejecutar_instruccion(sql)

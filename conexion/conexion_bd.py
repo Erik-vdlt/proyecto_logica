@@ -1,4 +1,5 @@
 import pymysql
+from pymysql import cursors
 #import exceptions as a
 
 def singleton(cls):
@@ -12,25 +13,32 @@ def singleton(cls):
         
 @singleton
 class database:
+    __cur : cursors
+    __conexion : pymysql
+    
     def __init__(self):
-        self.connection = pymysql.connect(
+        self.__conexion = pymysql.connect(
             host = 'localhost',
             user = 'root',
             password = 'root1',
             db = 'clinica_veterinaria'
         )
-        if self.connection.open:
+        if self.__conexion.open:
             print("conexion abierta")
         else:
             print("conexion fallida")
 
-        self.cursor = self.connection.cursor()
+        #self.__cur = self.__conexion.cursor()
         
     def ejecutar_instruccion(self, sql):
+        with self.__conexion:
+            self.__cur = self.__conexion.cursor()
+            self.__cur.execute(sql)
+        '''
         try:
-            self.cursor.execute(sql)
-        except self.cursor.DatabaseError:
-            print("error en la base de datos")
+            self.__cur.execute(sql)
+        except self.__cur.DatabaseError:
+            print("error al insertar")'''
             
     def consultar_registros(self, sql):
         

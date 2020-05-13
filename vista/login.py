@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 #from conexion import App as vent
 from PyQt5.QtWidgets import QApplication, QWidget
 from interfaz_clinica import Ui_vista_principal
+from conexion.conexion_bd import database as conexion_principal
 
 class Ui_formulario(object):
     def setupUi(self, formulario):
@@ -61,10 +62,10 @@ class Ui_formulario(object):
     def ventana(self):
         self.principal = QtWidgets.QMainWindow()
         self.vent = Ui_vista_principal()
-        #vent.setupUi(principal)
+        obj = conexion_principal()
+        self.vent.Ui_vista(obj)
         self.vent.setupUi(self.principal)
         self.principal.show()
-        print("funciona "+self.txt_usuario.toPlainText())
         formulario.hide()
 
 

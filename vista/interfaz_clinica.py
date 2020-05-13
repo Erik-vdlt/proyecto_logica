@@ -1,8 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from conexion.conexion_bd import database
-#from vista_agregar_mascota import Ui_Form
+from conexion.conexion_bd import database as con
+from Ui_vista_agregar_mascota import Ui_Form
 
 class Ui_vista_principal(object):
+    __database : con
+    
+    def Ui_vista(self, db):
+        self.__database = db
+    
     def setupUi(self, vista_principal):
         vista_principal.setObjectName("vista_principal")
         vista_principal.setEnabled(True)
@@ -207,7 +212,7 @@ class Ui_vista_principal(object):
         self.btn_cliente.clicked.connect(self.cambiar_pagina1)
         self.btn_veterinario.clicked.connect(self.cambiar_pagina2)
         self.btn_reporte.clicked.connect(self.cambiar_pagina3)
-        self.btn_grafica.clicked.connect(self.prueba_database)
+        #self.btn_grafica.clicked.connect(self.prueba_database)
         self.btn_aceptar_mascota.clicked.connect(self.agregacion_mascotas)
 
         self.retranslateUi(vista_principal)
@@ -265,14 +270,11 @@ class Ui_vista_principal(object):
     def cambiar_pagina3(self):
         self.stackedWidget_2.setCurrentIndex(3)
         
-    def prueba_database(self):
-        print("hola ")
-        x = database()
-        x.__init__()
         
     def agregacion_mascotas(self):
-        self.agregar_mascota_view = QtWidgets.QMainWindow()
+        self.agregar_mascota_view = QtWidgets.QWidget()
         self.form_mascota = Ui_Form()
+        self.form_mascota.Form(self.__database)
         self.form_mascota.setupUi(self.agregar_mascota_view)
         self.agregar_mascota_view.show()
 ''' #acciones de botones
