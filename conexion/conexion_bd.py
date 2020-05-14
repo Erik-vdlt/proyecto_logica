@@ -42,10 +42,13 @@ class database:
             
     def consultar_registros(self, sql):
         
-        self.cursor.execute(sql)
-        registros = self.cursor.fetchall()
-        
-        return registros
+        with self.__conexion:
+            self.__cur = self.__conexion.cursor()
+            self.__cur.execute(sql)
+            registros = self.__cur.fetchall()
+            #self.__cur.execute(sql)
+            #registros = self.__cur.fetchall()
+            return registros
 
     '''def all_users(self):
         sql = 'SELECT * FROM Usuario'

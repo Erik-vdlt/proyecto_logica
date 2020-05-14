@@ -75,6 +75,7 @@ class Ui_Form(object):
         self.cmb_tipo_mascota.addItems(lista_mamiferos)
         self.pushButton.clicked.connect(self.agregar_mascota_db)
         
+        
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 

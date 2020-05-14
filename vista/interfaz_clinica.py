@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QTableWidgetItem
 from conexion.conexion_bd import database as con
 from Ui_vista_agregar_mascota import Ui_Form
+from conexion.mascotaDAO import mascotaDAO as dao_mas
 
 class Ui_vista_principal(object):
     __database : con
@@ -214,6 +216,8 @@ class Ui_vista_principal(object):
         self.btn_reporte.clicked.connect(self.cambiar_pagina3)
         #self.btn_grafica.clicked.connect(self.prueba_database)
         self.btn_aceptar_mascota.clicked.connect(self.agregacion_mascotas)
+        #self.btn_buscar_mascota.clicked.connect(self.cargar_tabla)
+        self.cargar_tabla()
 
         self.retranslateUi(vista_principal)
         self.stackedWidget_2.setCurrentIndex(0)
@@ -277,9 +281,30 @@ class Ui_vista_principal(object):
         self.form_mascota.Form(self.__database)
         self.form_mascota.setupUi(self.agregar_mascota_view)
         self.agregar_mascota_view.show()
+    """    
+    def buscar_mascota(self):
+        dao = dao_mas()
+        dao.consutar_mascota(self.__database)
+    """    
+    def cargar_tabla(self):
+        dao = dao_mas()
+        lista = dao.consutar_mascota(self.__database)
+        columna : int = 0
+        fila : int = 0
+        self.tbl_mascota.setRowCount(len(lista))
+        numeroFilas = self.tbl_mascota.rowCount()
+        self.tbl_mascota.insertRow(numeroFilas)
+        for i in lista:
+            for e in i:
+                self.tbl_mascota.setItem(columna,fila,QTableWidgetItem(str(e)))
+                fila+=1
+            columna+=1
+            fila=0
+        
 ''' #acciones de botones
         self.btn_mascotas.clicked.connect(self.cambiar_pagina)
         self.btn_cliente.clicked.connect(self.cambiar_pagina1)
         self.btn_veterinario.clicked.connect(self.cambiar_pagina2)
         self.btn_reporte.clicked.connect(self.cambiar_pagina3)
-        self.btn_grafica.clicked.connect(self.prueba_database)'''
+        self.btn_grafica.clicked.connect(self.prueba_database)
+    '''

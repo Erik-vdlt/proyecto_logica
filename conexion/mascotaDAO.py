@@ -11,3 +11,14 @@ class mascotaDAO:
         str(cls_mas.get_especie())+"','"+str(cls_mas.get_tipo())+
         "',"+str(cls_mas.get_peso())+","+str(cls_mas.get_id_cliente())+")")
         self.__db.ejecutar_instruccion(sql)
+        
+    def consutar_mascota(self, con):
+        lista_mascota = []
+        self.__db = con
+        sql = ("select * from Mascota")
+        #print(self.__db.consultar_registros(sql))
+        for i in self.__db.consultar_registros(sql):
+            lista_mascota.append(i)
+        
+        return lista_mascota
+    

@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 #from conexion import App as vent
-from PyQt5.QtWidgets import QApplication, QWidget
+#from PyQt5.QtWidgets import QApplication, QWidget
 from interfaz_clinica import Ui_vista_principal
 from conexion.conexion_bd import database as conexion_principal
 
