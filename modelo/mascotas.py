@@ -1,9 +1,16 @@
 class mascota:
+    __id_mascota: int
     __nombre_mascota : str
     __especie_mascota : str
     __tipo_mascota : str
     __peso_mascota : float
     __id_cliente : int
+    
+    def set_id_mascota(self, id):
+        self.__id_mascota = id
+        
+    def get_id_mascota(self):
+        return self.__id_mascota
     
     def set_nombre(self, nombre):
         self.__nombre_mascota = nombre

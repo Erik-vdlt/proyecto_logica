@@ -16,6 +16,12 @@ class Ui_Form(object):
     def Form(self, database):
         self.__db = database
         
+    def funcion_mascota(self, mascota_in:pet):
+        obj = mascota_in
+        nombre = obj.get_nombre()
+        print(nombre)
+        self.txt_nombre_mascota.setText(nombre)
+        
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(240, 255)
@@ -135,10 +141,12 @@ class Ui_Form(object):
         obj.set_especie(self.cmb_especie_mascota.currentText())
         obj.set_tipo(self.cmb_tipo_mascota.currentText())
         obj.set_peso(self.sp_peso_mascota.value())
-        print("peso: "+str(self.sp_peso_mascota.value()))
         obj.set_id_cliente(self.cmb_cliente_mascota.currentText())
         obj1 = dao_mas()
         obj1.agregar_mascota(obj, self.__db)
+        
+    #def actualizar_mascota_db(self):
+        
         
 '''
 if __name__ == "__main__":

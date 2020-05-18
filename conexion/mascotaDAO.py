@@ -21,4 +21,18 @@ class mascotaDAO:
             lista_mascota.append(i)
         
         return lista_mascota
+        
+    def eliminar_mascota(self, id, con):
+        self.__db = con
+        sql = ("delete from Mascota where id_mascota = "+id)
+        self.__db.ejecutar_instruccion(sql)
+        
+    def actualizar_mascota(self, mascota : mas, con):
+        self.__db = con
+        sql = ("update Mascota set nombre_mascota ="+str(mascota.get_nombre())+",especie = "+str(mascota.get_especie())+
+        ",tipo_mascota = "+str(mascota.get_tipo())+",peso_mascota = "+str(mascota.get_peso())+",cliente_id_cliente = "+str(mascota.set_id_cliente())+
+        "where id_mascota = "+mascota.get_id_mascota)
+        self.__db.ejecutar_instruccion(sql)
+        
+        
     

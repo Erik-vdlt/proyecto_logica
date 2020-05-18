@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from conexion.conexion_bd import database as con
 from Ui_vista_agregar_mascota import Ui_Form
 from conexion.mascotaDAO import mascotaDAO as dao_mas
+from modelo.mascotas import mascota
 
 class Ui_vista_principal(object):
     __database : con
@@ -48,7 +49,7 @@ class Ui_vista_principal(object):
         self.tbl_mascota.setGeometry(QtCore.QRect(40, 90, 611, 221))
         self.tbl_mascota.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.tbl_mascota.setObjectName("tbl_mascota")
-        self.tbl_mascota.setColumnCount(6)
+        self.tbl_mascota.setColumnCount(8)
         self.tbl_mascota.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.tbl_mascota.setHorizontalHeaderItem(0, item)
@@ -62,6 +63,10 @@ class Ui_vista_principal(object):
         self.tbl_mascota.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         self.tbl_mascota.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tbl_mascota.setHorizontalHeaderItem(6, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tbl_mascota.setHorizontalHeaderItem(7, item)
         self.txt_buscar_mascota = QtWidgets.QLineEdit(self.page_5)
         self.txt_buscar_mascota.setGeometry(QtCore.QRect(20, 20, 201, 23))
         self.txt_buscar_mascota.setStyleSheet("QLineEdit{\n"
@@ -238,6 +243,10 @@ class Ui_vista_principal(object):
         item.setText(_translate("vista_principal", "Peso"))
         item = self.tbl_mascota.horizontalHeaderItem(5)
         item.setText(_translate("vista_principal", "ID Cliente"))
+        item = self.tbl_mascota.horizontalHeaderItem(6)
+        item.setText(_translate("vista_principal", "Eliminar"))
+        item = self.tbl_mascota.horizontalHeaderItem(7)
+        item.setText(_translate("vista_principal", "Actualizar"))
         self.btn_buscar_mascota.setText(_translate("vista_principal", "Buscar"))
         self.btn_aceptar_mascota.setText(_translate("vista_principal", "Agregar"))
         self.btn_eliminar_mascota.setText(_translate("vista_principal", "Eliminar"))
@@ -281,12 +290,16 @@ class Ui_vista_principal(object):
         self.form_mascota.Form(self.__database)
         self.form_mascota.setupUi(self.agregar_mascota_view)
         self.agregar_mascota_view.show()
+        self.cargar_tabla()
     """    
     def buscar_mascota(self):
         dao = dao_mas()
         dao.consutar_mascota(self.__database)
     """    
     def cargar_tabla(self):
+        #self.btn_eliminar = QtWidgets.QPushButton(self.tbl_mascota)
+        #self.btn_eliminar.setText("Eliminar")
+        
         dao = dao_mas()
         lista = dao.consutar_mascota(self.__database)
         columna : int = 0
@@ -295,16 +308,48 @@ class Ui_vista_principal(object):
         numeroFilas = self.tbl_mascota.rowCount()
         self.tbl_mascota.insertRow(numeroFilas)
         for i in lista:
+            self.btn_eliminar = QtWidgets.QPushButton('Eliminar')
+            self.btn_eliminar.clicked.connect(self.prueba_imprimir)
+            self.tbl_mascota.setCellWidget(columna, 6, self.btn_eliminar)
+            self.btn_actualizar_registro_mascota = QtWidgets.QPushButton('Actualizar')
+            self.btn_actualizar_registro_mascota.clicked.connect(self.actualizar_mascota_accion)
+            self.tbl_mascota.setCellWidget(columna, 7, self.btn_actualizar_registro_mascota)
             for e in i:
                 self.tbl_mascota.setItem(columna,fila,QTableWidgetItem(str(e)))
+                #self.tbl_mascota.setCellWidget(columna, 6, self.btn_eliminar)
                 fila+=1
             columna+=1
             fila=0
         
-''' #acciones de botones
-        self.btn_mascotas.clicked.connect(self.cambiar_pagina)
-        self.btn_cliente.clicked.connect(self.cambiar_pagina1)
-        self.btn_veterinario.clicked.connect(self.cambiar_pagina2)
-        self.btn_reporte.clicked.connect(self.cambiar_pagina3)
-        self.btn_grafica.clicked.connect(self.prueba_database)
-    '''
+    def prueba_imprimir(self):
+        button = QtWidgets.qApp.focusWidget()
+        dao = dao_mas()
+        index = self.tbl_mascota.indexAt(button.pos())
+        if index.isValid():
+            print(index.row(), index.column())
+            id = self.tbl_mascota.item(index.row(), 0).text()
+            dao.eliminar_mascota(id, self.__database)
+            print(str(id))
+            self.cargar_tabla()
+
+    def actualizar_mascota_accion(self):
+        obj_mas = mascota()
+        button = QtWidgets.qApp.focusWidget()
+        index = self.tbl_mascota.indexAt(button.pos())
+        if index.isValid():
+            obj_mas.set_id_mascota(self.tbl_mascota.item(index.row(), 0).text())
+            obj_mas.set_nombre(self.tbl_mascota.item(index.row(), 1).text())
+            '''obj_mas.set_especie(self.tbl_mascota.item(index.row(), 2).text())
+            obj_mas.set_tipo(self.tbl_mascota.item(index.row(), 3).text())'''
+            self.actualizar_mascota_view = QtWidgets.QWidget()
+            self.form_mascota = Ui_Form()
+            self.form_mascota.Form(self.__database)
+            #nombre = self.tbl_mascota.item(index.row(), 1).text()
+            #print(nombre)
+            #self.form_mascota.txt_nombre_mascota.setText(nombre)
+            self.form_mascota.setupUi(self.actualizar_mascota_view)
+            self.form_mascota.funcion_mascota(obj_mas)
+            self.actualizar_mascota_view.show()
+            self.cargar_tabla()
+        
+        
