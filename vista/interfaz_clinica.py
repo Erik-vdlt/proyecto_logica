@@ -4,6 +4,7 @@ from conexion.conexion_bd import database as con
 from Ui_vista_agregar_mascota import Ui_Form
 from conexion.mascotaDAO import mascotaDAO as dao_mas
 from modelo.mascotas import mascota
+from PyQt5.QtCore import Qt
 
 class Ui_vista_principal(object):
     __database : con
@@ -221,6 +222,8 @@ class Ui_vista_principal(object):
         self.btn_reporte.clicked.connect(self.cambiar_pagina3)
         #self.btn_grafica.clicked.connect(self.prueba_database)
         self.btn_aceptar_mascota.clicked.connect(self.agregacion_mascotas)
+        
+        self.txt_buscar_mascota.keyPressEvent = self.buscar_tabla
         #self.btn_buscar_mascota.clicked.connect(self.cargar_tabla)
         self.cargar_tabla()
 
@@ -291,14 +294,8 @@ class Ui_vista_principal(object):
         self.form_mascota.setupUi(self.agregar_mascota_view)
         self.agregar_mascota_view.show()
         self.cargar_tabla()
-    """    
-    def buscar_mascota(self):
-        dao = dao_mas()
-        dao.consutar_mascota(self.__database)
-    """    
+ 
     def cargar_tabla(self):
-        #self.btn_eliminar = QtWidgets.QPushButton(self.tbl_mascota)
-        #self.btn_eliminar.setText("Eliminar")
         
         dao = dao_mas()
         lista = dao.consutar_mascota(self.__database)
@@ -316,7 +313,6 @@ class Ui_vista_principal(object):
             self.tbl_mascota.setCellWidget(columna, 7, self.btn_actualizar_registro_mascota)
             for e in i:
                 self.tbl_mascota.setItem(columna,fila,QTableWidgetItem(str(e)))
-                #self.tbl_mascota.setCellWidget(columna, 6, self.btn_eliminar)
                 fila+=1
             columna+=1
             fila=0
@@ -349,7 +345,30 @@ class Ui_vista_principal(object):
             #self.form_mascota.txt_nombre_mascota.setText(nombre)
             self.form_mascota.setupUi(self.actualizar_mascota_view)
             self.form_mascota.funcion_mascota(obj_mas)
+            self.form_mascota.activar_boton()
             self.actualizar_mascota_view.show()
             self.cargar_tabla()
+        
+    def buscar_tabla(self, e):
+        dao = dao_mas()
+        if e.text().isalpha():
+            texto = self.txt_buscar_mascota.text()+e.text()
+            self.txt_buscar_mascota.setText(texto)
+            dao.busqueda_avanzada(self.__database, texto, self.tbl_mascota, self.prueba_imprimir, self.actualizar_mascota_accion)
+        
+        #dao.busqueda_avanzada(self.__database, texto, self.tbl_mascota, self.prueba_imprimir, self.actualizar_mascota_accion)
+        if e.key()  == Qt.Key_Return :
+            print(' return')
+        elif e.key() == Qt.Key_Enter :   
+            print(' enter')
+        elif e.key() == Qt.Key_Backspace:
+            texto = self.txt_buscar_mascota.text()
+            print('valor')
+            texto = texto.replace(texto[len(texto)-1:len(texto)], " ")
+            print('funciones ', texto.replace(texto[len(texto)-2:len(texto)], " ").strip()+'o')
+            texto = texto.strip()
+            print(texto)
+            self.txt_buscar_mascota.setText(texto)
+            dao.busqueda_avanzada(self.__database, texto, self.tbl_mascota, self.prueba_imprimir, self.actualizar_mascota_accion)
         
         

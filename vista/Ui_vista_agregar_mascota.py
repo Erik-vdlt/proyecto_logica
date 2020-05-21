@@ -5,21 +5,23 @@
 # Created by: PyQt5 UI code generator 5.14.2
 #
 # WARNING! All changes made in this file will be lost!
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from modelo.mascotas import mascota as pet
 from conexion.mascotaDAO import mascotaDAO as dao_mas
 from conexion.conexion_bd import database as con
 
 class Ui_Form(object):
     __db : con
+    __mas : pet
     
     def Form(self, database):
         self.__db = database
         
     def funcion_mascota(self, mascota_in:pet):
-        obj = mascota_in
-        nombre = obj.get_nombre()
-        print(nombre)
+        #obj = mascota_in
+        self.__mas = mascota_in
+        nombre = self.__mas.get_nombre()
+        #print(nombre)
         self.txt_nombre_mascota.setText(nombre)
         
     def setupUi(self, Form):
@@ -74,12 +76,20 @@ class Ui_Form(object):
         self.pushButton_2.setObjectName("pushButton_2")
         self.gridLayout.addWidget(self.pushButton_2, 6, 0, 1, 2)
         
+        #boton actualizar
+        self.pushButton_3 = QtWidgets.QPushButton(Form)
+        self.pushButton_3.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton_3, 5, 0, 1, 2)
+        self.pushButton_3.hide()
+
+        
         #QtCore.QObject.connect(self.cmb_especie_mascota, QtCore.SIGNAL("currentIndexChanged(QString)"), self.combo_items)
         self.cmb_especie_mascota.currentIndexChanged.connect(self.combo_items)
         lista_mamiferos=["Perro", "Gato", "Conejo", "Cobaya", "Hamster", 
             "Jerbo", "Chinchilla", "Ardilla", "Raton", "Rata", "Huron", "Erizo"]
         self.cmb_tipo_mascota.addItems(lista_mamiferos)
         self.pushButton.clicked.connect(self.agregar_mascota_db)
+        self.pushButton_3.clicked.connect(self.actualizar_mascota_btn)
         
         
         self.retranslateUi(Form)
@@ -103,6 +113,7 @@ class Ui_Form(object):
         self.cmb_cliente_mascota.setItemText(1, _translate("Form", "2"))
         self.pushButton.setText(_translate("Form", "Aceptar"))
         self.pushButton_2.setText(_translate("Form", "Cancelar"))
+        self.pushButton_3.setText(_translate("Form", "Actualizar"))
         
     def combo_items(self):
         if self.cmb_especie_mascota.currentText() == "Mamiferos":
@@ -146,6 +157,23 @@ class Ui_Form(object):
         obj1.agregar_mascota(obj, self.__db)
         
     #def actualizar_mascota_db(self):
+    
+    def activar_boton(self):
+        if(self.pushButton_3.isHidden()):
+            self.pushButton.hide()
+            self.pushButton_3.show()
+            
+    def actualizar_mascota_btn(self):
+        obj = self.__mas
+        #self.txt_nombre_mascota.setText(obj.get_nombre())
+        obj.set_id_mascota(obj.get_id_mascota())
+        obj.set_nombre(self.txt_nombre_mascota.text())
+        obj.set_especie(self.cmb_especie_mascota.currentText())
+        obj.set_tipo(self.cmb_tipo_mascota.currentText())
+        obj.set_peso(self.sp_peso_mascota.value())
+        obj.set_id_cliente(self.cmb_cliente_mascota.currentText())
+        obj1 = dao_mas()
+        obj1.actualizar_mascota(obj, self.__db)
         
         
 '''
