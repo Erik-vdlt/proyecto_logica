@@ -46,7 +46,7 @@ class Ui_formulario(object):
         self.label.setGeometry(QtCore.QRect(30, 60, 128, 128))
         self.label.setText("")
         #self.label.setPixmap(QtGui.QPixmap("../../../Descargas/iniciar-sesion(2).png"))
-        self.label.setPixmap(QtGui.QPixmap("/home/erik/Documentos/Proyectos/python/veterinaria/iconos/iniciar-sesion.png"))
+        self.label.setPixmap(QtGui.QPixmap("/home/erik/Documentos/Proyectos/veterinaria/iconos/iniciar-sesion.png"))
         self.label.setObjectName("label")
 
         self.retranslateUi(formulario)
@@ -60,9 +60,11 @@ class Ui_formulario(object):
         self.btn_iniciar_sesion.setText(_translate("formulario", "Iniciar Sesion"))
 
     def ventana(self):
+        print(self.txt_usuario.toPlainText()+" "+self.txt_contra.toPlainText())
         self.principal = QtWidgets.QMainWindow()
         self.vent = Ui_vista_principal()
-        obj = conexion_principal()
+        obj = conexion_principal(self.txt_usuario.toPlainText(), self.txt_contra.toPlainText())
+        #obj.__init__(self.txt_usuario.toPlainText(), self.txt_contra.toPlainText())
         self.vent.Ui_vista(obj)
         self.vent.setupUi(self.principal)
         self.principal.show()

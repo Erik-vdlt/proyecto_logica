@@ -16,15 +16,17 @@ class database:
     __cur : cursors
     __conexion : pymysql
     
-    def __init__(self):
+    def __init__(self,usuario,  contra):
         self.__conexion = pymysql.connect(
             host = 'localhost',
-            user = 'root',
-            password = 'root1',
+            user = usuario,
+            password = contra,
             db = 'clinica_veterinaria'
         )
         if self.__conexion.open:
             print("conexion abierta")
+        elif self.__conexion.OperationalError:
+            print("contraseña y/o usuario erroneo")
         else:
             print("conexion fallida")
 
@@ -41,7 +43,6 @@ class database:
             print("error al insertar")'''
             
     def consultar_registros(self, sql):
-        
         with self.__conexion:
             self.__cur = self.__conexion.cursor()
             self.__cur.execute(sql)

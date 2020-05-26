@@ -9,11 +9,9 @@ class mascotaDAO:
     
     def agregar_mascota(self,cls_mas: mas, con_x ):
         self.__db = con_x
-        sql = ("insert into Mascota(nombre_mascota,especie,"+
-        "tipo_mascota,peso_mascota,cliente_id_cliente)"+
-        " values "+"('"+str(cls_mas.get_nombre())+"','"+
-        str(cls_mas.get_especie())+"','"+str(cls_mas.get_tipo())+
-        "',"+str(cls_mas.get_peso())+","+str(cls_mas.get_id_cliente())+")")
+        fila = ["'"+cls_mas.get_nombre()+"'","'"+ cls_mas.get_especie()+"'", "'"+cls_mas.get_tipo()+"'", cls_mas.get_peso(), cls_mas.get_id_cliente()]
+        valores = ', '.join(map(str, fila))
+        sql = ("insert into Mascota(nombre_mascota,especie,tipo_mascota,peso_mascota,cliente_id_cliente) values ({})".format(valores)+";")
         self.__db.ejecutar_instruccion(sql)
         
     def consutar_mascota(self, con):
@@ -66,6 +64,19 @@ class mascotaDAO:
             fila=0
         return tabla
         
-        
-        
+    def consultar_tipo_mascota(self,  con):
+        self.__db = con
+        sql = ("select tipo_mascota from Mascota group by tipo_mascota;")
+        sql1 = ("select count(tipo_mascota) from Mascota group by tipo_mascota;")
+        lista_tipos = []
+        lista0 = []
+        lista1 = []
+        for i in self.__db.consultar_registros(sql):
+            lista0.append(i)
+        for i in self.__db.consultar_registros(sql1):
+            lista1.append(i)
+            
+        lista_tipos = lista0+lista1
+            
+        return lista_tipos
         

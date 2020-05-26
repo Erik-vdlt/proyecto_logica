@@ -4,6 +4,8 @@ from conexion.conexion_bd import database as con
 from Ui_vista_agregar_mascota import Ui_Form
 from conexion.mascotaDAO import mascotaDAO as dao_mas
 from modelo.mascotas import mascota
+import matplotlib.pyplot as plt
+from collections import Iterable 
 from PyQt5.QtCore import Qt
 
 class Ui_vista_principal(object):
@@ -220,6 +222,7 @@ class Ui_vista_principal(object):
         self.btn_cliente.clicked.connect(self.cambiar_pagina1)
         self.btn_veterinario.clicked.connect(self.cambiar_pagina2)
         self.btn_reporte.clicked.connect(self.cambiar_pagina3)
+        self.btn_grafica.clicked.connect(self.crear_grafica_mascotas)
         #self.btn_grafica.clicked.connect(self.prueba_database)
         self.btn_aceptar_mascota.clicked.connect(self.agregacion_mascotas)
         
@@ -275,16 +278,19 @@ class Ui_vista_principal(object):
         self.menuArchivo.setTitle(_translate("vista_principal", "Archivo"))
 
     def cambiar_pagina(self):
-        self.stackedWidget_2.setCurrentIndex(1)
+        self.stackedWidget_2.setCurrentIndex(0)
     
     def cambiar_pagina1(self):
-        self.stackedWidget_2.setCurrentIndex(0)
+        self.stackedWidget_2.setCurrentIndex(1)
     
     def cambiar_pagina2(self):
         self.stackedWidget_2.setCurrentIndex(2)
     
     def cambiar_pagina3(self):
         self.stackedWidget_2.setCurrentIndex(3)
+    
+    def cambiar_graficos(self):
+        self.stackedWidget_2.setCurrentIndex(4)
         
         
     def agregacion_mascotas(self):
@@ -371,4 +377,40 @@ class Ui_vista_principal(object):
             self.txt_buscar_mascota.setText(texto)
             dao.busqueda_avanzada(self.__database, texto, self.tbl_mascota, self.prueba_imprimir, self.actualizar_mascota_accion)
         
+    def crear_grafica_mascotas(self):
+        dao = dao_mas()
+        lista_n = dao.consultar_tipo_mascota(self.__database)
+        #var = ["".join(str(i)) for i in lista_n]
+        var = [list(row) for row in lista_n]
+        print("lista de listas ",var)
+        labels = list(filter(self.etiquetas,  var))
+        labels = list(self.flatten(labels))
+        #print("etiquetas",labels)
+        sizes = list(filter(self.valores,  var))
+        colors = ['#ff9999','#66b3ff','#99ff99']
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes, colors = colors, labels=labels, autopct='%1.1f%%', startangle=90)#draw circle
+        centre_circle = plt.Circle((0,0),0.70,fc='white')
+        fig = plt.gcf()
+        fig.gca().add_artist(centre_circle)# Equal aspect ratio ensures that pie is drawn as a circle
+        ax1.axis('equal')  
+        plt.tight_layout()
+        plt.show()
         
+        
+    def etiquetas(self, tipo):
+        if isinstance(tipo[0], str):
+            print(tipo)
+            return True
+            
+    def valores(self, valo):
+        if isinstance(valo[0], int):
+            return True
+            
+    def flatten(self, items):
+        for x in items:
+            if isinstance(x, Iterable) and not isinstance(x, (str, bytes)):
+                for sub_x in self.flatten(x):
+                    yield sub_x
+            else:
+                yield x
