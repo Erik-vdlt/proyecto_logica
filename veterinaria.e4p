@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project veterinaria -->
-<!-- Saved: 2020-04-19, 18:18:37 -->
+<!-- Saved: 2020-05-26, 15:51:17 -->
 <!-- Copyright (C) 2020 Erik, erikvdlt@gmail.com -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -14,7 +14,22 @@
   <Eol index="0"/>
   <Sources>
     <Source>__init__.py</Source>
+    <Source>conexion/__init__.py</Source>
+    <Source>conexion/conexion_bd.py</Source>
+    <Source>conexion/mascotaDAO.py</Source>
+    <Source>iconos/__init__.py</Source>
+    <Source>modelo/__init__.py</Source>
+    <Source>modelo/clientes.py</Source>
+    <Source>modelo/mascotas.py</Source>
+    <Source>modelo/veterinario.py3</Source>
+    <Source>vista/__init__.py</Source>
+    <Source>vista/interfaz_clinica.py</Source>
+    <Source>vista/login.py</Source>
+    <Source>vista/vista_agregar_mascota.py3</Source>
   </Sources>
+  <Forms>
+    <Form>vista_agregar_mascota.ui</Form>
+  </Forms>
   <Others>
     <Other>.gitignore</Other>
   </Others>

@@ -4,6 +4,7 @@ from conexion.conexion_bd import database as con
 from Ui_vista_agregar_mascota import Ui_Form
 from conexion.mascotaDAO import mascotaDAO as dao_mas
 from modelo.mascotas import mascota
+from modelo.reporte import plantilla
 import matplotlib.pyplot as plt
 from collections import Iterable 
 from PyQt5.QtCore import Qt
@@ -221,7 +222,7 @@ class Ui_vista_principal(object):
         self.btn_mascotas.clicked.connect(self.cambiar_pagina)
         self.btn_cliente.clicked.connect(self.cambiar_pagina1)
         self.btn_veterinario.clicked.connect(self.cambiar_pagina2)
-        self.btn_reporte.clicked.connect(self.cambiar_pagina3)
+        self.btn_reporte.clicked.connect(self.abrir_reporte)
         self.btn_grafica.clicked.connect(self.crear_grafica_mascotas)
         #self.btn_grafica.clicked.connect(self.prueba_database)
         self.btn_aceptar_mascota.clicked.connect(self.agregacion_mascotas)
@@ -414,3 +415,7 @@ class Ui_vista_principal(object):
                     yield sub_x
             else:
                 yield x
+    
+    def abrir_reporte(self):
+        plan = plantilla()
+        plan.generar_reporte(self.__database)

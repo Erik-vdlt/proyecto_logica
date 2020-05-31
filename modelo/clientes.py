@@ -1,12 +1,12 @@
 class cliente:
-    __nombre_cliente
-    __primer_ap
-    __segundo_ap
-    __fecha_nacimiento
-    __calle
-    __no_calle
-    __colonia
-    __correo
+    __nombre_cliente : str
+    __primer_ap : str
+    __segundo_ap : str
+    __fecha_nacimiento : str
+    __calle : str
+    __no_calle : int
+    __colonia : str
+    __correo: str
     
     def cliente():
         pass

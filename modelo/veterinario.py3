@@ -1,12 +1,12 @@
 class veterinarios:
-    __nombre_veterinario
-    __primer_ap
-    __segundo_ap
-    __fecha_nacimiento
-    __calle
-    __no_calle
-    __colonia
-    __correo
+    __nombre_veterinario : str
+    __primer_ap : str
+    __segundo_ap : str
+    __fecha_nacimiento : str
+    __calle : str
+    __no_calle : int
+    __colonia : str
+    __correo : str
     
     def veterinarios():
         pass
