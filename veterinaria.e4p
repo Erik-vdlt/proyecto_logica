@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project veterinaria -->
-<!-- Saved: 2020-05-26, 15:51:17 -->
+<!-- Saved: 2020-05-30, 21:46:46 -->
 <!-- Copyright (C) 2020 Erik, erikvdlt@gmail.com -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -17,10 +17,12 @@
     <Source>conexion/__init__.py</Source>
     <Source>conexion/conexion_bd.py</Source>
     <Source>conexion/mascotaDAO.py</Source>
+    <Source>conexion/multiple.py</Source>
     <Source>iconos/__init__.py</Source>
     <Source>modelo/__init__.py</Source>
     <Source>modelo/clientes.py</Source>
     <Source>modelo/mascotas.py</Source>
+    <Source>modelo/reporte.py</Source>
     <Source>modelo/veterinario.py3</Source>
     <Source>vista/__init__.py</Source>
     <Source>vista/interfaz_clinica.py</Source>
@@ -32,6 +34,7 @@
   </Forms>
   <Others>
     <Other>.gitignore</Other>
+    <Other>conexion/multipleDAO.py2</Other>
   </Others>
   <Vcs>
     <VcsType>Git</VcsType>
