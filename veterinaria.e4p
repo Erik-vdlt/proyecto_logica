@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project veterinaria -->
-<!-- Saved: 2020-06-04, 15:49:53 -->
+<!-- Saved: 2020-06-05, 00:20:42 -->
 <!-- Copyright (C) 2020 Erik, erikvdlt@gmail.com -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -15,6 +15,7 @@
   <Sources>
     <Source>__init__.py</Source>
     <Source>conexion/__init__.py</Source>
+    <Source>conexion/clienteDAO.py</Source>
     <Source>conexion/conexion_bd.py</Source>
     <Source>conexion/mascotaDAO.py</Source>
     <Source>conexion/multiple.py</Source>

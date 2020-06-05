@@ -15,6 +15,7 @@ from Ui_vista_cliente_agregar import Ui_Form as vista_agregar_cliente
 from conexion.mascotaDAO import mascotaDAO as dao_mas
 from conexion.clienteDAO import clienteDAO as cli_dao
 from modelo.mascotas import mascota
+from modelo.clientes import cliente as cli_obj
 from modelo.reporte import plantilla
 import matplotlib.pyplot as plt
 from collections import Iterable 
@@ -114,7 +115,7 @@ class Ui_vista_principal(object):
         self.tbl_cliente = QtWidgets.QTableWidget(self.pg_cliente)
         self.tbl_cliente.setGeometry(QtCore.QRect(0, 260, 741, 192))
         self.tbl_cliente.setObjectName("tbl_cliente")
-        self.tbl_cliente.setColumnCount(9)
+        self.tbl_cliente.setColumnCount(11)
         self.tbl_cliente.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.tbl_cliente.setHorizontalHeaderItem(0, item)
@@ -134,6 +135,10 @@ class Ui_vista_principal(object):
         self.tbl_cliente.setHorizontalHeaderItem(7, item)
         item = QtWidgets.QTableWidgetItem()
         self.tbl_cliente.setHorizontalHeaderItem(8, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tbl_cliente.setHorizontalHeaderItem(9, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tbl_cliente.setHorizontalHeaderItem(10, item)
         self.lineEdit = QtWidgets.QLineEdit(self.pg_cliente)
         self.lineEdit.setGeometry(QtCore.QRect(10, 210, 241, 23))
         self.lineEdit.setStyleSheet("QLineEdit{\n"
@@ -440,7 +445,7 @@ class Ui_vista_principal(object):
             
     def cargar_tabla_cliente(self):
         cli = cli_dao()
-        cli.cargar_tabla(self.__database, self.tbl_cliente)
+        cli.cargar_tabla(self.__database, self.tbl_cliente, self.boton_actualizar_cliente, self.boton_eliminar_cliente)
         
     def prueba_imprimir(self):
         button = QtWidgets.qApp.focusWidget()
@@ -452,6 +457,35 @@ class Ui_vista_principal(object):
             dao.eliminar_mascota(id, self.__database)
             print(str(id))
             self.cargar_tabla()
+            
+    def boton_eliminar_cliente(self):
+        button = QtWidgets.qApp.focusWidget()
+        dao = cli_dao()
+        index = self.tbl_cliente.indexAt(button.pos())
+        if index.isValid():
+            id = self.tbl_cliente.item(index.row(), 0).text()
+            dao.eliminar_cliente_dao(self.__database, id)
+            
+    def boton_actualizar_cliente(self):
+        obj_cliente = cli_obj()
+        #cliente_dao = cli_dao()
+        button = QtWidgets.qApp.focusWidget()
+        index = self.tbl_cliente.indexAt(button.pos())
+        if index.isValid():
+            obj_cliente.set_id_cliente(self.tbl_cliente.item(index.row(), 0).text())
+            obj_cliente.set_nombre_cliente(self.tbl_cliente.item(index.row(), 1).text())
+            obj_cliente.set_primer_ap(self.tbl_cliente.item(index.row(), 2).text())
+            obj_cliente.set_segundo_ap(self.tbl_cliente.item(index.row(), 3).text())
+            obj_cliente.set_calle(self.tbl_cliente.item(index.row(), 5).text())
+            obj_cliente.set_colonia(self.tbl_cliente.item(index.row(), 7).text())
+            obj_cliente.set_correo(self.tbl_cliente.item(index.row(), 8).text())
+            self.actualizar_cliente_view = QtWidgets.QWidget()
+            self.form_cliente = vista_agregar_cliente()
+            self.form_cliente.Form(self.__database)
+            self.form_cliente.setupUi(self.actualizar_cliente_view)
+            self.form_cliente.cargar_datos_cliente(obj_cliente)
+            self.form_cliente.activar_boton()
+            self.actualizar_cliente_view.show()
 
     def actualizar_mascota_accion(self):
         obj_mas = mascota()
@@ -460,14 +494,9 @@ class Ui_vista_principal(object):
         if index.isValid():
             obj_mas.set_id_mascota(self.tbl_mascota.item(index.row(), 0).text())
             obj_mas.set_nombre(self.tbl_mascota.item(index.row(), 1).text())
-            '''obj_mas.set_especie(self.tbl_mascota.item(index.row(), 2).text())
-            obj_mas.set_tipo(self.tbl_mascota.item(index.row(), 3).text())'''
             self.actualizar_mascota_view = QtWidgets.QWidget()
             self.form_mascota = Ui_Form()
             self.form_mascota.Form(self.__database)
-            #nombre = self.tbl_mascota.item(index.row(), 1).text()
-            #print(nombre)
-            #self.form_mascota.txt_nombre_mascota.setText(nombre)
             self.form_mascota.setupUi(self.actualizar_mascota_view)
             self.form_mascota.funcion_mascota(obj_mas)
             self.form_mascota.activar_boton()

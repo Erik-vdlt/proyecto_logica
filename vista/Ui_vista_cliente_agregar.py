@@ -15,9 +15,19 @@ from conexion.conexion_bd import database
 
 class Ui_Form(object):
     __con : database
+    __objeto_cliente : clie
     
     def Form(self, db):
         self.__con = db
+        
+    def cargar_datos_cliente(self, cliente):
+        self.__objeto_cliente = cliente
+        self.txt_nombre_cliente.setText(cliente.get_nombre_cliente())
+        self.txt_primer_ap_cliente.setText(cliente.get_primer_ap())
+        self.txt_segundo_ap_cliente.setText(cliente.get_segundo_ap())
+        self.txt_calle_cliente.setText(cliente.get_calle())
+        self.txt_colonia_cliente.setText(cliente.get_colonia())
+        self.txt_correo_cliente.setText(cliente.get_correo())
     
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -87,6 +97,10 @@ class Ui_Form(object):
         self.btn_aceptar_cliente = QtWidgets.QPushButton(self.fr_mascota)
         self.btn_aceptar_cliente.setObjectName("btn_aceptar_cliente")
         self.gridLayout_5.addWidget(self.btn_aceptar_cliente, 8, 0, 1, 2)
+        self.btn_actualizar_cliente = QtWidgets.QPushButton(self.fr_mascota)
+        self.btn_actualizar_cliente.setObjectName("btn_actualizar_cliente")
+        self.gridLayout_5.addWidget(self.btn_actualizar_cliente, 8, 0, 1, 2)
+        self.btn_actualizar_cliente.hide()
         self.btn_cancelar_cliente = QtWidgets.QPushButton(self.fr_mascota)
         self.btn_cancelar_cliente.setObjectName("btn_cancelar_cliente")
         self.gridLayout_5.addWidget(self.btn_cancelar_cliente, 8, 2, 1, 2)
@@ -100,6 +114,7 @@ class Ui_Form(object):
         self.cmb_dia_cliente.addItems(lista_dias)
         self.cmb_year_cliente.addItems(self.year_combo())
         self.btn_aceptar_cliente.clicked.connect(self.agregar_cliente)
+        self.btn_actualizar_cliente.clicked.connect(self.actualizar_cliente)
         #lista_year = []
         # lista_year = self.year_combo.copy()
         #self.cmb_dia_cliente.addItems(lista_year)
@@ -120,6 +135,7 @@ class Ui_Form(object):
         self.label_33.setText(_translate("Form", "Correo Electronico"))
         self.btn_aceptar_cliente.setText(_translate("Form", "Aceptar"))
         self.btn_cancelar_cliente.setText(_translate("Form", "Cancelar"))
+        self.btn_actualizar_cliente.setText(_translate("Form", "Actualizar"))
 
     def  dias_combo(self):
         lista = []
@@ -149,6 +165,22 @@ class Ui_Form(object):
         dao_cli = clienteDAO()
         dao_cli.agregar_cliente_dao(obj_cliente, self.__con)
         
+    def actualizar_cliente(self):
+        mes = self.conversion(self.cmb_mes_cliente.currentText())
+        fecha = self.cmb_year_cliente.currentText()+'-'+str(mes)+'-'+self.cmb_dia_cliente.currentText()
+        obj_cliente = clie()
+        obj_cliente.set_id_cliente(self.__objeto_cliente.get_id_cliente())
+        obj_cliente.set_nombre_cliente(self.txt_nombre_cliente.text())
+        obj_cliente.set_primer_ap(self.txt_primer_ap_cliente.text())
+        obj_cliente.set_segundo_ap(self.txt_segundo_ap_cliente.text())
+        obj_cliente.set_fecha_nacimiento(fecha)
+        obj_cliente.set_calle(self.txt_calle_cliente.text())
+        obj_cliente.set_no_calle(self.sp_no_calle_cliente.value())
+        obj_cliente.set_colonia(self.txt_colonia_cliente.text())
+        obj_cliente.set_correo(self.txt_correo_cliente.text())
+        dao_cli = clienteDAO()
+        dao_cli.actualizar_cliente_dao(obj_cliente, self.__con)
+        
     def conversion(self, mes):
         conversion = {
             "Enero" : 1, 
@@ -165,6 +197,11 @@ class Ui_Form(object):
             "Diciembre" : 12 
         }
         return conversion.get(mes)
+        
+    def activar_boton(self):
+        if self.btn_actualizar_cliente.isHidden():
+            self.btn_aceptar_cliente.hide()
+            self.btn_actualizar_cliente.show()
 '''
 if __name__ == "__main__":
     import sys
