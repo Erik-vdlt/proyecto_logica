@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project veterinaria -->
-<!-- Saved: 2020-05-26, 15:51:17 -->
+<!-- Saved: 2020-06-05, 00:20:42 -->
 <!-- Copyright (C) 2020 Erik, erikvdlt@gmail.com -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -15,19 +15,29 @@
   <Sources>
     <Source>__init__.py</Source>
     <Source>conexion/__init__.py</Source>
+    <Source>conexion/clienteDAO.py</Source>
     <Source>conexion/conexion_bd.py</Source>
     <Source>conexion/mascotaDAO.py</Source>
+    <Source>conexion/multiple.py</Source>
     <Source>iconos/__init__.py</Source>
     <Source>modelo/__init__.py</Source>
     <Source>modelo/clientes.py</Source>
     <Source>modelo/mascotas.py</Source>
+    <Source>modelo/reporte.py</Source>
     <Source>modelo/veterinario.py3</Source>
+    <Source>vista/Ui_interfaz_clinica.py</Source>
+    <Source>vista/Ui_login.py</Source>
+    <Source>vista/Ui_vista_agregar_mascota.py</Source>
+    <Source>vista/Ui_vista_cliente_agregar.py</Source>
     <Source>vista/__init__.py</Source>
     <Source>vista/interfaz_clinica.py</Source>
     <Source>vista/login.py</Source>
     <Source>vista/vista_agregar_mascota.py3</Source>
   </Sources>
   <Forms>
+    <Form>vista/interfaz_clinica.ui</Form>
+    <Form>vista/login.ui</Form>
+    <Form>vista/vista_cliente_agregar.ui</Form>
     <Form>vista_agregar_mascota.ui</Form>
   </Forms>
   <Others>

@@ -1,4 +1,5 @@
 class cliente:
+    __id_cliente : int
     __nombre_cliente : str
     __primer_ap : str
     __segundo_ap : str
@@ -10,9 +11,15 @@ class cliente:
     
     def cliente():
         pass
+        
+    def get_id_cliente(self):
+        return self.__id_cliente
+        
+    def set_id_cliente(self, id_cliente):
+        self.__id_cliente = id_cliente
     
     def get_nombre_cliente(self):
-        return self.__nombre
+        return self.__nombre_cliente
         
     def set_nombre_cliente(self, nombre):
         self.__nombre_cliente = nombre

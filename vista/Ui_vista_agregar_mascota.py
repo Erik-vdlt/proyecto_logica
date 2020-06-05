@@ -6,6 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtGui
 from modelo.mascotas import mascota as pet
 from conexion.mascotaDAO import mascotaDAO as dao_mas
 from conexion.conexion_bd import database as con
@@ -25,7 +26,7 @@ class Ui_Form(object):
         self.txt_nombre_mascota.setText(nombre)
         
     def setupUi(self, Form):
-        Form.setObjectName("Form")
+        Form.setObjectName("Agregar Mascota")
         Form.resize(240, 255)
         self.gridLayout = QtWidgets.QGridLayout(Form)
         self.gridLayout.setObjectName("gridLayout")
@@ -91,13 +92,17 @@ class Ui_Form(object):
         self.pushButton.clicked.connect(self.agregar_mascota_db)
         self.pushButton_3.clicked.connect(self.actualizar_mascota_btn)
         
+        regex = QtCore.QRegExp("[a-z-A-Z_ ]+")
+        validator = QtGui.QRegExpValidator(regex)
+        self.txt_nombre_mascota.setValidator(validator)
+        
         
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Agregar Mascota", "Agregar Mascota"))
         self.label.setText(_translate("Form", "Nombre"))
         self.label_2.setText(_translate("Form", "Especie"))
         self.cmb_especie_mascota.setItemText(0, _translate("Form", "Mamiferos"))

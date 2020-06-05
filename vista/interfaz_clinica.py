@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem
 from conexion.conexion_bd import database as con
-from Ui_vista_agregar_mascota import Ui_Form
+from vista.Ui_vista_agregar_mascota import Ui_Form
 from conexion.mascotaDAO import mascotaDAO as dao_mas
 from modelo.mascotas import mascota
 from modelo.reporte import plantilla
