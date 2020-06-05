@@ -12,7 +12,7 @@ class cliente:
         pass
     
     def get_nombre_cliente(self):
-        return self.__nombre
+        return self.__nombre_cliente
         
     def set_nombre_cliente(self, nombre):
         self.__nombre_cliente = nombre
