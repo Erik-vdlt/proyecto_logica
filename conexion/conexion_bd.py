@@ -36,11 +36,6 @@ class database:
         with self.__conexion:
             self.__cur = self.__conexion.cursor()
             self.__cur.execute(sql)
-            
-    def ejecutar_instruccion_segura(self, sql, datos):
-        with self.__conexion:
-            self.__cur = self.__conexion.cursor()
-            self.__cur.execute(sql, datos)
         '''
         try:
             self.__cur.execute(sql)
